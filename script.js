@@ -1,16 +1,28 @@
+function fetchUsers() {
+    return new Promise((resolve, reject) => {
+        fetch('https://randomuser.me/api/?results=5')
+            .then(response => {
+                if (!response.ok) {
+                    reject('Помилка завантаження даних');
+                }
+                return response.json();
+            })
+            .then(data => {
+                resolve(data.results);
+            })
+            .catch(error => {
+                reject(`Помилка: ${error}`);
+            });
+    });
+}
+
 document.getElementById('fetchUsersBtn').addEventListener('click', () => {
-    fetch('https://randomuser.me/api/?results=5')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Помилка завантаження даних');
-            }
-            return response.json();
-        })
-        .then(data => {
+    fetchUsers()
+        .then(users => {
             const userContainer = document.getElementById('userContainer');
             userContainer.innerHTML = '';
 
-            data.results.forEach(user => {
+            users.forEach(user => {
                 const userCard = document.createElement('div');
                 userCard.classList.add('user-card');
 
@@ -27,7 +39,6 @@ document.getElementById('fetchUsersBtn').addEventListener('click', () => {
                 const postcode = document.createElement('p');
                 postcode.textContent = `Поштовий індекс: ${user.location.postcode}`;
 
-                // Create email label and value
                 const emailLabel = document.createElement('p');
                 emailLabel.textContent = 'Електронна пошта:';
 

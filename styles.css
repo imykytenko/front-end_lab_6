@@ -25,7 +25,7 @@ h1 {
 
 .user-container {
     display: flex;
-    gap: 25px;
+    gap: 20px;
     padding: 10px;
     overflow-x: auto;
     white-space: nowrap;
